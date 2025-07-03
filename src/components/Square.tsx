@@ -2,17 +2,21 @@
 import './Square.css';
 
 interface SquareProps {
-  value: 'X' | 'O' | null;
+  value: string | null;
   onClick: () => void;
-  isWinningSquare: boolean;
+  isWinning: boolean;
+  isAnimating: boolean;
 }
 
-const Square = ({ value, onClick, isWinningSquare }: SquareProps) => {
-  const squareClass = `square ${value ? (value === 'X' ? 'x' : 'o') : ''} ${isWinningSquare ? 'winning' : ''}`;
-  
+const Square = ({ value, onClick, isWinning, isAnimating }: SquareProps) => {
+  const squareClass = `square 
+    ${value === 'X' ? 'x-square' : value === 'O' ? 'o-square' : ''} 
+    ${isWinning ? 'winning' : ''} 
+    ${isAnimating && !value ? 'pulse' : ''}`;
+
   return (
     <button className={squareClass} onClick={onClick}>
-      {value}
+      {value && <span className="square-value">{value}</span>}
     </button>
   );
 };

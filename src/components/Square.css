@@ -2,32 +2,58 @@
 .square {
   width: 100px;
   height: 100px;
-  background-color: white;
+  background-color: var(--card-background);
   border: 2px solid var(--border-color);
-  font-size: 2.5rem;
-  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 2.5rem;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.square:hover:not(.x):not(.o) {
-  background-color: var(--hover-color);
+.square:hover:not(.x-square):not(.o-square) {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
-.square.x {
-  color: var(--primary-color);
+.square-value {
+  display: block;
+  animation: pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.square.o {
-  color: var(--secondary-color);
+.x-square {
+  color: var(--x-color);
 }
 
-.square.winning {
-  background-color: rgba(152, 251, 152, 0.5);
-  animation: pulse 1s infinite;
+.o-square {
+  color: var(--o-color);
+}
+
+.winning {
+  background-color: rgba(131, 56, 236, 0.2);
+  border-color: var(--highlight-color);
+}
+
+.winning .square-value {
+  animation: pulse 1.5s infinite;
+}
+
+.pulse {
+  animation: pulse-bg 1s;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes pulse {
@@ -35,14 +61,26 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);
   }
 }
 
-@media (max-width: 500px) {
+@keyframes pulse-bg {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  50% {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@media (max-width: 480px) {
   .square {
     width: 80px;
     height: 80px;
@@ -50,7 +88,7 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 360px) {
   .square {
     width: 70px;
     height: 70px;

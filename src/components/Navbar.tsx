@@ -1,28 +1,60 @@
 
-import React from 'react';
-import { Button } from '@/components/ui/button';
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../App';
+import './Navbar.css';
 
 const Navbar = () => {
+  const { user, setUser, wallet } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setUser(null);
+    navigate('/');
+  };
+
   return (
-    <header className="border-b border-gray-100">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <span className="text-xl font-semibold">Brand</span>
-        </div>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <Link to="/" className="navbar-logo">
+          ZeroCross
+        </Link>
         
-        <nav className="hidden md:flex space-x-8">
-          <a href="#" className="text-gray-200 hover:text-fuchsia-500 transition-colors">Home</a>
-          <a href="#features" className="text-gray-200 hover:text-fuchsia-500 transition-colors">Features</a>
-          <a href="#" className="text-gray-200 hover:text-fuchsia-500 transition-colors">About</a>
-          <a href="#" className="text-gray-200 hover:text-fuchsia-500 transition-colors">Contact</a>
-        </nav>
-        
-        <div className="flex items-center">
-          <Button variant="outline" className="mr-2 hidden md:inline-flex">Log in</Button>
-          <Button className="px-8 rounded-md bg-gradient-to-br from-blue-700 to-blue-900 text-white hover:from-blue-600 hover:to-fuchsia-600 transition-colors">Sign Up</Button>
+        <div className="navbar-links">
+          <Link to="/leaderboard" className="navbar-link">Leaderboard</Link>
+          
+          {user ? (
+            <>
+              <div className="wallet-display">
+                ₹{wallet.balance.toFixed(2)}
+              </div>
+              <div className="navbar-dropdown">
+                <button className="navbar-dropdown-btn">
+                  <img 
+                    src={user.avatar || 'https://via.placeholder.com/40'} 
+                    alt={user.username} 
+                    className="avatar-small"
+                  />
+                  <span>{user.username}</span>
+                </button>
+                <div className="navbar-dropdown-content">
+                  <Link to="/profile" className="dropdown-item">Profile</Link>
+                  <Link to="/wallet" className="dropdown-item">Wallet</Link>
+                  <button onClick={handleLogout} className="dropdown-item logout-btn">
+                    Logout
+                  </button>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="auth-buttons">
+              <Link to="/login" className="btn btn-outline">Login</Link>
+              <Link to="/register" className="btn btn-primary">Register</Link>
+            </div>
+          )}
         </div>
       </div>
-    </header>
+    </nav>
   );
 };
 
