@@ -1,0 +1,59 @@
+
+.square {
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border: 2px solid var(--border-color);
+  font-size: 2.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.square:hover:not(.x):not(.o) {
+  background-color: var(--hover-color);
+}
+
+.square.x {
+  color: var(--primary-color);
+}
+
+.square.o {
+  color: var(--secondary-color);
+}
+
+.square.winning {
+  background-color: rgba(152, 251, 152, 0.5);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 500px) {
+  .square {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .square {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+  }
+}
