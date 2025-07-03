@@ -183,6 +183,18 @@
   font-size: 1.1rem;
 }
 
+.guest-cta {
+  background-color: rgba(13, 110, 253, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.guest-cta p {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
 .action-buttons {
   display: flex;
   gap: 1rem;

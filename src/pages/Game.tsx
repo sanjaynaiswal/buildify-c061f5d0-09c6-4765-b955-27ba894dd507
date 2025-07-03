@@ -1,11 +1,11 @@
 
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { UserContext, Transaction } from '../App';
+import { UserContext, Transaction, User } from '../App';
 import Board from '../components/Board';
 import './Game.css';
 
-type GameMode = 'free' | 'paid' | 'tournament' | 'challenge';
+type GameMode = 'free' | 'paid' | 'tournament' | 'challenge' | 'guest';
 
 interface GameState {
   history: Array<Array<string | null>>;
@@ -53,7 +53,25 @@ const Game = () => {
   
   // Set up game based on mode
   useEffect(() => {
-    if (gameMode !== 'free' && !user) {
+    // Create a guest user if in guest mode and no user is logged in
+    if (gameMode === 'guest' && !user) {
+      const guestUser: User = {
+        id: `guest-${Date.now()}`,
+        username: `Guest${Math.floor(1000 + Math.random() * 9000)}`,
+        email: '',
+        avatar: 'https://via.placeholder.com/40',
+        isGuest: true,
+        stats: {
+          wins: 0,
+          losses: 0,
+          draws: 0,
+          elo: 1000
+        }
+      };
+      setUser(guestUser);
+    }
+    
+    if (gameMode !== 'free' && gameMode !== 'guest' && !user) {
       navigate('/login');
       return;
     }
@@ -70,12 +88,12 @@ const Game = () => {
     setResult(null);
     
     // For paid modes, check if user has enough balance
-    if (gameMode !== 'free' && wallet.balance < getEntryFee(gameMode)) {
+    if (['paid', 'tournament', 'challenge'].includes(gameMode) && wallet.balance < getEntryFee(gameMode)) {
       alert('Insufficient balance. Please add money to your wallet.');
       navigate('/wallet');
       return;
     }
-  }, [gameMode, user, wallet.balance, navigate]);
+  }, [gameMode, user, wallet.balance, navigate, setUser]);
   
   function getEntryFee(mode: GameMode): number {
     switch (mode) {
@@ -97,7 +115,7 @@ const Game = () => {
   
   const startGame = () => {
     // In a real app, this would connect to a backend to find an opponent
-    if (gameMode !== 'free') {
+    if (['paid', 'tournament', 'challenge'].includes(gameMode)) {
       // Deduct entry fee
       if (user) {
         const newBalance = wallet.balance - gameState.entryFee;
@@ -134,10 +152,17 @@ const Game = () => {
         }));
       }, 2000);
     } else {
-      // Free mode - start immediately
+      // Free or guest mode - start immediately
       setGameState(prev => ({
         ...prev,
         isGameActive: true,
+        opponent: gameMode === 'guest' ? {
+          id: 'ai-123',
+          username: 'AI Opponent',
+          avatar: 'https://via.placeholder.com/40',
+        } : null,
+        // Randomly decide who goes first in guest mode
+        xIsNext: gameMode === 'guest' ? Math.random() > 0.5 : true,
       }));
     }
   };
@@ -176,7 +201,7 @@ const Game = () => {
     setGameState(prev => ({ ...prev, isGameActive: false }));
     
     // Handle rewards for paid games
-    if (gameMode !== 'free' && user) {
+    if (!['free', 'guest'].includes(gameMode) && user && !user.isGuest) {
       let winAmount = 0;
       let transactionType: 'win' | 'refund' = 'win';
       let details = '';
@@ -224,6 +249,19 @@ const Game = () => {
           });
         }
       }
+    }
+    
+    // Update stats for guest users too, but don't affect wallet
+    if ((gameMode === 'free' || gameMode === 'guest') && user) {
+      setUser({
+        ...user,
+        stats: {
+          ...user.stats,
+          wins: result === 'win' ? user.stats.wins + 1 : user.stats.wins,
+          losses: result === 'loss' ? user.stats.losses + 1 : user.stats.losses,
+          draws: result === 'draw' ? user.stats.draws + 1 : user.stats.draws,
+        }
+      });
     }
   };
   
@@ -350,7 +388,7 @@ const Game = () => {
                   : '🤝 It\'s a Draw'}
             </h2>
             
-            {gameMode !== 'free' && (
+            {!['free', 'guest'].includes(gameMode) && user && !user.isGuest && (
               <div className="result-details">
                 {result === 'win' && (
                   <p>You won ₹{gameState.winAmount}!</p>
@@ -358,6 +396,18 @@ const Game = () => {
                 {result === 'draw' && (
                   <p>Your entry fee of ₹{gameState.entryFee} has been refunded.</p>
                 )}
+              </div>
+            )}
+            
+            {user?.isGuest && (
+              <div className="guest-cta">
+                <p>Create an account to play for real money and track your stats!</p>
+                <button 
+                  className="btn btn-secondary"
+                  onClick={() => navigate('/register')}
+                >
+                  Sign Up Now
+                </button>
               </div>
             )}
             

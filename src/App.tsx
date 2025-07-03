@@ -31,6 +31,7 @@ export interface User {
   username: string;
   email: string;
   avatar: string;
+  isGuest?: boolean;
   stats: {
     wins: number;
     losses: number;
@@ -71,6 +72,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/game/guest" element={<Game />} />
+              <Route path="/game/free" element={<Game />} />
               <Route 
                 path="/game/:mode" 
                 element={

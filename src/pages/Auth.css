@@ -76,6 +76,19 @@
   gap: 1rem;
 }
 
+.guest-button {
+  background-color: #f8f9fa;
+  border: 1px dashed #ced4da;
+  color: #6c757d;
+  transition: all 0.2s ease;
+}
+
+.guest-button:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+  color: #495057;
+}
+
 .checkbox-container {
   display: flex;
   align-items: flex-start;

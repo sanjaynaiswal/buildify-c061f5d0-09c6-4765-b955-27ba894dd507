@@ -1,6 +1,6 @@
 
 import { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { UserContext, User } from '../App';
 import './Auth.css';
 
@@ -12,6 +12,10 @@ const Login = () => {
   
   const { setUser, setWallet } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Get the return URL if it exists
+  const returnUrl = location.state?.returnUrl || '/';
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,12 +55,16 @@ const Login = () => {
           }],
         });
         
-        navigate('/');
+        navigate(returnUrl);
       } else {
         setError('Please enter both email and password');
       }
       setIsLoading(false);
     }, 1000);
+  };
+  
+  const handleGuestPlay = () => {
+    navigate('/game/guest');
   };
   
   return (
@@ -115,6 +123,13 @@ const Login = () => {
         <div className="social-login">
           <button className="btn btn-outline w-full">
             Continue with Google
+          </button>
+          
+          <button 
+            className="btn btn-outline w-full mt-2 guest-button"
+            onClick={handleGuestPlay}
+          >
+            Play as Guest
           </button>
         </div>
       </div>

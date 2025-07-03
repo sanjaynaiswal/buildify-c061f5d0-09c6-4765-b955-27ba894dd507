@@ -25,9 +25,11 @@ const Navbar = () => {
           
           {user ? (
             <>
-              <div className="wallet-display">
-                ₹{wallet.balance.toFixed(2)}
-              </div>
+              {!user.isGuest && (
+                <div className="wallet-display">
+                  ₹{wallet.balance.toFixed(2)}
+                </div>
+              )}
               <div className="navbar-dropdown">
                 <button className="navbar-dropdown-btn">
                   <img 
@@ -36,13 +38,25 @@ const Navbar = () => {
                     className="avatar-small"
                   />
                   <span>{user.username}</span>
+                  {user.isGuest && <span className="guest-badge">Guest</span>}
                 </button>
                 <div className="navbar-dropdown-content">
-                  <Link to="/profile" className="dropdown-item">Profile</Link>
-                  <Link to="/wallet" className="dropdown-item">Wallet</Link>
-                  <button onClick={handleLogout} className="dropdown-item logout-btn">
-                    Logout
-                  </button>
+                  {!user.isGuest ? (
+                    <>
+                      <Link to="/profile" className="dropdown-item">Profile</Link>
+                      <Link to="/wallet" className="dropdown-item">Wallet</Link>
+                      <button onClick={handleLogout} className="dropdown-item logout-btn">
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/register" className="dropdown-item">Create Account</Link>
+                      <button onClick={handleLogout} className="dropdown-item logout-btn">
+                        Exit Guest Mode
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             </>

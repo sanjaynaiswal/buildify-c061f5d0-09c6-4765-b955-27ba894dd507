@@ -66,6 +66,18 @@
   cursor: pointer;
   font-size: 1rem;
   color: var(--text-color);
+  position: relative;
+}
+
+.guest-badge {
+  background-color: #6c757d;
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .avatar-small {

@@ -40,6 +40,12 @@ const Home = () => {
             <p>Create a private room and set your own stakes</p>
             {!user && <div className="login-required">Login Required</div>}
           </Link>
+          
+          <Link to="/game/guest" className="game-mode-card">
+            <div className="game-mode-icon">👋</div>
+            <h3>Guest Play</h3>
+            <p>Play without registration - No rewards</p>
+          </Link>
         </div>
       </div>
       
