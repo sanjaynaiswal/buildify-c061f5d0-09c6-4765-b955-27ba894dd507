@@ -9,6 +9,7 @@ const Wallet = () => {
   const [activeTab, setActiveTab] = useState<'deposit' | 'withdraw' | 'history'>('deposit');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [withdrawAmount, setWithdrawAmount] = useState<string>('');
+  const [activePaymentMethod, setActivePaymentMethod] = useState<'razorpay' | 'upi' | 'qr' | 'netbanking'>('razorpay');
   
   const handleDeposit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -196,18 +197,128 @@ const Wallet = () => {
             <div className="payment-methods">
               <h3>Payment Methods</h3>
               <div className="payment-options">
-                <div className="payment-option">
+                <div 
+                  className={`payment-option ${activePaymentMethod === 'razorpay' ? 'active' : ''}`}
+                  onClick={() => setActivePaymentMethod('razorpay')}
+                >
                   <div className="payment-icon">💳</div>
-                  <div>Credit/Debit Card</div>
+                  <div>Razorpay</div>
                 </div>
-                <div className="payment-option">
+                <div 
+                  className={`payment-option ${activePaymentMethod === 'upi' ? 'active' : ''}`}
+                  onClick={() => setActivePaymentMethod('upi')}
+                >
                   <div className="payment-icon">📱</div>
                   <div>UPI</div>
                 </div>
-                <div className="payment-option">
+                <div 
+                  className={`payment-option ${activePaymentMethod === 'qr' ? 'active' : ''}`}
+                  onClick={() => setActivePaymentMethod('qr')}
+                >
+                  <div className="payment-icon">🔄</div>
+                  <div>QR Code</div>
+                </div>
+                <div 
+                  className={`payment-option ${activePaymentMethod === 'netbanking' ? 'active' : ''}`}
+                  onClick={() => setActivePaymentMethod('netbanking')}
+                >
                   <div className="payment-icon">🏦</div>
                   <div>Net Banking</div>
                 </div>
+              </div>
+              
+              <div className="payment-details">
+                {activePaymentMethod === 'razorpay' && (
+                  <div className="razorpay-details">
+                    <div className="razorpay-logo">
+                      <img src="https://via.placeholder.com/150x50?text=Razorpay" alt="Razorpay" />
+                    </div>
+                    <p>Fast and secure payments with Razorpay</p>
+                    <div className="razorpay-cards">
+                      <span className="card-icon">💳 Visa</span>
+                      <span className="card-icon">💳 Mastercard</span>
+                      <span className="card-icon">💳 RuPay</span>
+                    </div>
+                  </div>
+                )}
+                
+                {activePaymentMethod === 'upi' && (
+                  <div className="upi-details">
+                    <h4>Pay using UPI</h4>
+                    <div className="upi-apps">
+                      <div className="upi-app">
+                        <div className="upi-app-icon">📱</div>
+                        <div>Google Pay</div>
+                      </div>
+                      <div className="upi-app">
+                        <div className="upi-app-icon">📱</div>
+                        <div>PhonePe</div>
+                      </div>
+                      <div className="upi-app">
+                        <div className="upi-app-icon">📱</div>
+                        <div>Paytm</div>
+                      </div>
+                      <div className="upi-app">
+                        <div className="upi-app-icon">📱</div>
+                        <div>BHIM</div>
+                      </div>
+                    </div>
+                    <div className="upi-input">
+                      <label htmlFor="upiId">Enter UPI ID</label>
+                      <input 
+                        type="text" 
+                        id="upiId" 
+                        className="form-control" 
+                        placeholder="yourname@upi"
+                      />
+                    </div>
+                  </div>
+                )}
+                
+                {activePaymentMethod === 'qr' && (
+                  <div className="qr-details">
+                    <h4>Scan QR Code to Pay</h4>
+                    <div className="qr-code-container">
+                      <div className="qr-code">
+                        <img src="https://via.placeholder.com/200?text=QR+Code" alt="QR Code" />
+                      </div>
+                      <div className="qr-instructions">
+                        <p>1. Open any UPI app on your phone</p>
+                        <p>2. Scan this QR code</p>
+                        <p>3. Complete the payment</p>
+                        <p>4. Your account will be credited automatically</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {activePaymentMethod === 'netbanking' && (
+                  <div className="netbanking-details">
+                    <h4>Pay using Net Banking</h4>
+                    <div className="bank-list">
+                      <div className="bank-option">
+                        <div className="bank-icon">🏦</div>
+                        <div>SBI</div>
+                      </div>
+                      <div className="bank-option">
+                        <div className="bank-icon">🏦</div>
+                        <div>HDFC</div>
+                      </div>
+                      <div className="bank-option">
+                        <div className="bank-icon">🏦</div>
+                        <div>ICICI</div>
+                      </div>
+                      <div className="bank-option">
+                        <div className="bank-icon">🏦</div>
+                        <div>Axis</div>
+                      </div>
+                      <div className="bank-option">
+                        <div className="bank-icon">🏦</div>
+                        <div>Other Banks</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

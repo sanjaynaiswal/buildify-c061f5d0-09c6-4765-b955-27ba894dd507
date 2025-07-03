@@ -8,6 +8,7 @@ import Wallet from './pages/Wallet';
 import Leaderboard from './pages/Leaderboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Tournament from './pages/Tournament';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
@@ -37,6 +38,8 @@ export interface User {
     losses: number;
     draws: number;
     elo: number;
+    tournamentsWon?: number;
+    tournamentsPlayed?: number;
   };
 }
 
@@ -79,6 +82,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Game />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/tournament" 
+                element={
+                  <ProtectedRoute>
+                    <Tournament />
                   </ProtectedRoute>
                 } 
               />

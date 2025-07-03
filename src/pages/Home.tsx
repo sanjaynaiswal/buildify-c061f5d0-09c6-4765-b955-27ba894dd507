@@ -27,7 +27,7 @@ const Home = () => {
             {!user && <div className="login-required">Login Required</div>}
           </Link>
           
-          <Link to={user ? "/game/tournament" : "/login"} className="game-mode-card premium">
+          <Link to={user ? "/tournament" : "/login"} className="game-mode-card premium">
             <div className="game-mode-icon">🏆</div>
             <h3>Tournament</h3>
             <p>Entry fee ₹50 - Prize pool ₹450</p>

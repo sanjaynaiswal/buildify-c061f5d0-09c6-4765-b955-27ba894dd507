@@ -131,7 +131,7 @@
   padding: 1rem;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  width: calc(33.333% - 0.667rem);
+  width: calc(25% - 0.75rem);
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -142,7 +142,115 @@
   background-color: rgba(58, 134, 255, 0.05);
 }
 
+.payment-option.active {
+  border-color: var(--primary-color);
+  background-color: rgba(58, 134, 255, 0.1);
+}
+
 .payment-icon {
+  font-size: 1.5rem;
+}
+
+.payment-details {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.razorpay-logo {
+  margin-bottom: 1rem;
+}
+
+.razorpay-logo img {
+  max-width: 150px;
+  height: auto;
+}
+
+.razorpay-cards {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.card-icon {
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.upi-apps {
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem 0;
+}
+
+.upi-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.upi-app-icon {
+  font-size: 1.5rem;
+}
+
+.upi-input {
+  margin-top: 1.5rem;
+}
+
+.qr-code-container {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.qr-code img {
+  width: 200px;
+  height: 200px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.qr-instructions {
+  flex: 1;
+}
+
+.qr-instructions p {
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.bank-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.bank-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  width: calc(20% - 0.8rem);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bank-option:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(58, 134, 255, 0.05);
+}
+
+.bank-icon {
   font-size: 1.5rem;
 }
 
@@ -257,6 +365,23 @@
   .balance-amount {
     font-size: 2rem;
   }
+  
+  .qr-code-container {
+    flex-direction: column;
+  }
+  
+  .bank-option {
+    width: calc(33.333% - 0.667rem);
+  }
+  
+  .upi-apps {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .upi-app {
+    width: calc(50% - 0.5rem);
+  }
 }
 
 @media (max-width: 480px) {
@@ -276,5 +401,14 @@
   
   .payment-option {
     width: 100%;
+  }
+  
+  .bank-option {
+    width: calc(50% - 0.5rem);
+  }
+  
+  .razorpay-cards {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
