@@ -113,10 +113,21 @@
   text-align: left;
   width: 100%;
   font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item .github-icon {
+  margin-right: 0.5rem;
+  fill: var(--text-color);
 }
 
 .dropdown-item:hover {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-item:hover .github-icon {
+  fill: var(--primary-color);
 }
 
 .logout-btn {

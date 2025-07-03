@@ -59,6 +59,33 @@
   border-radius: 12px;
   font-size: 0.8rem;
   font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.github-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #24292e;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.github-badge svg {
+  margin-right: 0.5rem;
+  fill: white;
+}
+
+.github-badge a {
+  color: white;
+  text-decoration: none;
+}
+
+.github-badge a:hover {
+  text-decoration: underline;
 }
 
 .edit-profile-btn {
@@ -120,6 +147,36 @@
 
 .detail-value {
   flex: 1;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.github-link svg {
+  margin-right: 0.5rem;
+  fill: var(--text-color);
+}
+
+.github-link:hover {
+  color: var(--primary-color);
+}
+
+.github-link:hover svg {
+  fill: var(--primary-color);
+}
+
+.connect-github-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.connect-github-link:hover {
+  text-decoration: underline;
 }
 
 .achievement-list {

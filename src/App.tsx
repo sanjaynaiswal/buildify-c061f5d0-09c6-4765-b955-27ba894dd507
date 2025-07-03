@@ -9,6 +9,7 @@ import Leaderboard from './pages/Leaderboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Tournament from './pages/Tournament';
+import GitHub from './pages/GitHub';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
@@ -33,6 +34,9 @@ export interface User {
   email: string;
   avatar: string;
   isGuest?: boolean;
+  githubConnected?: boolean;
+  githubUsername?: string;
+  githubAvatar?: string;
   stats: {
     wins: number;
     losses: number;
@@ -110,6 +114,14 @@ function App() {
                 } 
               />
               <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route 
+                path="/github" 
+                element={
+                  <ProtectedRoute>
+                    <GitHub />
+                  </ProtectedRoute>
+                } 
+              />
             </Routes>
           </div>
         </div>
