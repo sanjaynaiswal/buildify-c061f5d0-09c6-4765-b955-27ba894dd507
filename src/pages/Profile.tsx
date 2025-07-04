@@ -1,5 +1,5 @@
 
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { UserContext } from '../App';
 import './Profile.css';
 
@@ -8,6 +8,10 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [username, setUsername] = useState(user?.username || '');
   const [email, setEmail] = useState(user?.email || '');
+  const [phone, setPhone] = useState(user?.phone || '');
+  const [isChangingAvatar, setIsChangingAvatar] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   if (!user) {
     return null;
@@ -21,10 +25,43 @@ const Profile = () => {
         ...user,
         username,
         email,
+        phone,
       });
       
       setIsEditing(false);
     }
+  };
+  
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+  
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAvatarPreview(reader.result as string);
+        setIsChangingAvatar(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
+  const handleSaveAvatar = () => {
+    if (avatarPreview && user) {
+      setUser({
+        ...user,
+        avatar: avatarPreview,
+      });
+      setIsChangingAvatar(false);
+      setAvatarPreview(null);
+    }
+  };
+  
+  const handleCancelAvatarChange = () => {
+    setIsChangingAvatar(false);
+    setAvatarPreview(null);
   };
   
   const calculateWinRate = () => {
@@ -49,13 +86,41 @@ const Profile = () => {
       <div className="profile-header">
         <div className="profile-avatar-container">
           <img 
-            src={user.avatar || 'https://via.placeholder.com/150'} 
+            src={isChangingAvatar && avatarPreview ? avatarPreview : user.avatar || 'https://via.placeholder.com/150'} 
             alt={user.username} 
             className="profile-avatar"
+            onClick={handleAvatarClick}
           />
-          <button className="change-avatar-btn">
-            Change
-          </button>
+          <input 
+            type="file" 
+            ref={fileInputRef} 
+            style={{ display: 'none' }} 
+            accept="image/*"
+            onChange={handleAvatarChange}
+          />
+          {isChangingAvatar ? (
+            <div className="avatar-actions">
+              <button 
+                className="btn btn-sm btn-primary save-avatar-btn"
+                onClick={handleSaveAvatar}
+              >
+                Save
+              </button>
+              <button 
+                className="btn btn-sm btn-outline cancel-avatar-btn"
+                onClick={handleCancelAvatarChange}
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <button 
+              className="change-avatar-btn"
+              onClick={handleAvatarClick}
+            >
+              Change
+            </button>
+          )}
         </div>
         
         <div className="profile-info">
@@ -63,20 +128,6 @@ const Profile = () => {
           <div className="rank-badge">
             {getRankTitle(user.stats.elo)}
           </div>
-          {user.githubConnected && (
-            <div className="github-badge">
-              <svg height="16" viewBox="0 0 16 16" width="16">
-                <path fillRule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-              </svg>
-              <a 
-                href={`https://github.com/${user.githubUsername}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {user.githubUsername}
-              </a>
-            </div>
-          )}
         </div>
         
         {!isEditing && (
@@ -117,6 +168,23 @@ const Profile = () => {
               />
             </div>
             
+            <div className="form-group">
+              <label htmlFor="phone">Phone Number (Optional)</label>
+              <div className="phone-input-container">
+                <span className="country-code">+91</span>
+                <input
+                  type="tel"
+                  id="phone"
+                  className="form-control phone-input"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Enter your 10-digit phone number"
+                  maxLength={10}
+                  pattern="[0-9]{10}"
+                />
+              </div>
+            </div>
+            
             <div className="form-actions">
               <button 
                 type="button" 
@@ -125,6 +193,7 @@ const Profile = () => {
                   setIsEditing(false);
                   setUsername(user.username);
                   setEmail(user.email);
+                  setPhone(user.phone || '');
                 }}
               >
                 Cancel
@@ -172,6 +241,13 @@ const Profile = () => {
               <div className="detail-value">{user.email}</div>
             </div>
             
+            {user.phone && (
+              <div className="detail-item">
+                <div className="detail-label">Phone</div>
+                <div className="detail-value">+91 {user.phone}</div>
+              </div>
+            )}
+            
             <div className="detail-item">
               <div className="detail-label">ELO Rating</div>
               <div className="detail-value">{user.stats.elo}</div>
@@ -181,50 +257,21 @@ const Profile = () => {
               <div className="detail-label">Rank</div>
               <div className="detail-value">{getRankTitle(user.stats.elo)}</div>
             </div>
-            
-            {user.githubConnected ? (
-              <div className="detail-item">
-                <div className="detail-label">GitHub</div>
-                <div className="detail-value">
-                  <a 
-                    href={`https://github.com/${user.githubUsername}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="github-link"
-                  >
-                    <svg height="16" viewBox="0 0 16 16" width="16">
-                      <path fillRule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-                    </svg>
-                    {user.githubUsername}
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <div className="detail-item">
-                <div className="detail-label">GitHub</div>
-                <div className="detail-value">
-                  <a 
-                    href="/github"
-                    className="connect-github-link"
-                  >
-                    Connect GitHub Account
-                  </a>
-                </div>
-              </div>
-            )}
           </div>
           
           <div className="achievements card">
             <h2>Achievements</h2>
             
             <div className="achievement-list">
-              <div className="achievement-item locked">
+              <div className={`achievement-item ${user.stats.wins > 0 ? 'unlocked' : 'locked'}`}>
                 <div className="achievement-icon">🏆</div>
                 <div className="achievement-details">
                   <div className="achievement-name">First Victory</div>
                   <div className="achievement-description">Win your first game</div>
                 </div>
-                <div className="achievement-status">Locked</div>
+                <div className="achievement-status">
+                  {user.stats.wins > 0 ? 'Unlocked' : 'Locked'}
+                </div>
               </div>
               
               <div className="achievement-item locked">
@@ -251,5 +298,7 @@ const Profile = () => {
     </div>
   );
 };
+
+export default Profile;
 
 export default Profile;

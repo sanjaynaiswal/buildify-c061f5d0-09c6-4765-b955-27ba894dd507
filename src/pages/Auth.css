@@ -4,22 +4,48 @@
   justify-content: center;
   align-items: center;
   padding: 2rem 1rem;
+  min-height: calc(100vh - 70px);
+  background-color: #f8f9fa;
 }
 
 .auth-card {
   background-color: var(--card-background);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 2.5rem;
   width: 100%;
   max-width: 450px;
 }
 
 .auth-title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   text-align: center;
+  color: #1a73e8;
+}
+
+.login-tabs {
+  display: flex;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.login-tab {
+  flex: 1;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #6c757d;
+}
+
+.login-tab.active {
+  color: #1a73e8;
+  border-bottom-color: #1a73e8;
 }
 
 .auth-error {
@@ -35,6 +61,73 @@
   margin-bottom: 1.5rem;
 }
 
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #495057;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #1a73e8;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+.phone-input-container {
+  display: flex;
+  align-items: center;
+}
+
+.country-code {
+  background-color: #f1f3f5;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  font-weight: 500;
+}
+
+.phone-input {
+  border-radius: 0 8px 8px 0;
+}
+
+.otp-input {
+  letter-spacing: 0.5rem;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.resend-otp {
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+.resend-btn {
+  background: none;
+  border: none;
+  color: #1a73e8;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.resend-btn:hover {
+  text-decoration: underline;
+}
+
 .auth-links {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -42,7 +135,7 @@
 }
 
 .auth-links a {
-  color: var(--primary-color);
+  color: #1a73e8;
   text-decoration: none;
   font-weight: 600;
 }
@@ -101,12 +194,20 @@
 }
 
 .terms-link {
-  color: var(--primary-color);
+  color: #1a73e8;
   text-decoration: none;
 }
 
 .terms-link:hover {
   text-decoration: underline;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
 }
 
 @media (max-width: 480px) {

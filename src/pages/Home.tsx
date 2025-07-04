@@ -14,16 +14,22 @@ const Home = () => {
         <p className="hero-subtitle">Play Tic-Tac-Toe. Win Real Money.</p>
         
         <div className="game-modes">
-          <Link to="/game/free" className="game-mode-card">
-            <div className="game-mode-icon">🎮</div>
-            <h3>Free Play</h3>
-            <p>Practice your skills without spending money</p>
+          <Link to="/game/computer" className="game-mode-card">
+            <div className="game-mode-icon">🤖</div>
+            <h3>Computer Play</h3>
+            <p>Practice against AI - No stakes</p>
+          </Link>
+          
+          <Link to="/game/online" className="game-mode-card">
+            <div className="game-mode-icon">🌐</div>
+            <h3>Online Play</h3>
+            <p>Play against other players for free</p>
           </Link>
           
           <Link to={user ? "/game/paid" : "/login"} className="game-mode-card premium">
             <div className="game-mode-icon">💰</div>
             <h3>Paid Match</h3>
-            <p>Entry fee ₹10 - Win ₹18</p>
+            <p>Multiple stake levels - Win real money</p>
             {!user && <div className="login-required">Login Required</div>}
           </Link>
           
@@ -39,12 +45,6 @@ const Home = () => {
             <h3>Challenge Friend</h3>
             <p>Create a private room and set your own stakes</p>
             {!user && <div className="login-required">Login Required</div>}
-          </Link>
-          
-          <Link to="/game/guest" className="game-mode-card">
-            <div className="game-mode-icon">👋</div>
-            <h3>Guest Play</h3>
-            <p>Play without registration - No rewards</p>
           </Link>
         </div>
       </div>
