@@ -28,38 +28,42 @@ const Login = () => {
     
     // Simulate API call
     setTimeout(() => {
-      // For demo purposes, any email/password combination works
+      // For demo purposes, check if password is "password123"
       if (email && password) {
-        // Create mock user data
-        const mockUser: User = {
-          id: 'user-' + Date.now(),
-          username: email.split('@')[0],
-          email,
-          avatar: 'https://via.placeholder.com/150',
-          stats: {
-            wins: 0,
-            losses: 0,
-            draws: 0,
-            elo: 1000,
-          },
-        };
-        
-        setUser(mockUser);
-        
-        // Set initial wallet with bonus
-        setWallet({
-          balance: 100, // Starting bonus
-          transactions: [{
-            id: 'welcome-bonus',
-            type: 'deposit',
-            amount: 100,
-            timestamp: new Date(),
-            status: 'completed',
-            details: 'Welcome bonus',
-          }],
-        });
-        
-        navigate(returnUrl);
+        if (password === "password123") {
+          // Create mock user data
+          const mockUser: User = {
+            id: 'user-' + Date.now(),
+            username: email.split('@')[0],
+            email,
+            avatar: 'https://via.placeholder.com/150',
+            stats: {
+              wins: 0,
+              losses: 0,
+              draws: 0,
+              elo: 1000,
+            },
+          };
+          
+          setUser(mockUser);
+          
+          // Set initial wallet with bonus
+          setWallet({
+            balance: 100, // Starting bonus
+            transactions: [{
+              id: 'welcome-bonus',
+              type: 'deposit',
+              amount: 100,
+              timestamp: new Date(),
+              status: 'completed',
+              details: 'Welcome bonus',
+            }],
+          });
+          
+          navigate(returnUrl);
+        } else {
+          setError('Incorrect password. Please try again.');
+        }
       } else {
         setError('Please enter both email and password');
       }

@@ -85,7 +85,7 @@ const Home = () => {
         {user ? (
           <Link to="/game/paid" className="btn btn-primary cta-button">Play Now</Link>
         ) : (
-          <Link to="/register" className="btn btn-primary cta-button">Sign Up & Get ₹10 Bonus</Link>
+          <Link to="/register" className="btn btn-primary cta-button">Sign Up & Get ₹100 Bonus</Link>
         )}
       </div>
     </div>
